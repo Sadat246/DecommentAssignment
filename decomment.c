@@ -68,8 +68,7 @@ handleCommentState (int c)
 	    state = STAR_INSIDE_COMMENT;
 	}
     else if (c == '\n') {
-        newlineCount+=1
-        state = INSIDE_COMMENT;
+        newlineCount+=1;
     }
     return state;
 }
@@ -88,7 +87,7 @@ handleStarInCommentState (int c)
 	    state = DEFAULT;
 	}
     else if (c == '\n') {
-        newlineCount+=1
+        newlineCount+=1;
         state = INSIDE_COMMENT;
     }
 	else if (c!='*'){
