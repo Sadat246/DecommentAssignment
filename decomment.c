@@ -37,10 +37,12 @@ handleSlashSeenState (int c)
 	    state = SLASH_SEEN;
 	}
 	else if (c=='"'){
+        putchar('/')
 	    putchar(c);
 	    state=IN_STRING_LITERAL;
 	}
 	else if (c=='\''){
+        putchar('/')
 	    putchar(c);
 	    state=IN_CHARACTER_LITERAL;
 	}
@@ -49,6 +51,7 @@ handleSlashSeenState (int c)
 	    state= INSIDE_COMMENT;
 	}
 	else{
+        putchar('/')
 	    putchar(c);
 	    state = DEFAULT;
 	}
@@ -63,6 +66,10 @@ handleCommentState (int c)
 	if (c=='*') {
 	    state = STAR_INSIDE_COMMENT;
 	}
+    else if (c == '\n') {
+        putchar('\n');
+        state = INSIDE_COMMENT;
+    }
     return state;
 }
 
