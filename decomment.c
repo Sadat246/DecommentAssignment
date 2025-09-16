@@ -207,6 +207,9 @@ int main()
         putchar('/');
     }
     if (state == INSIDE_COMMENT || state == STAR_INSIDE_COMMENT){
+        for (i=0;i<newlineCount;i++){
+            putchar('\n');
+        }
         fprintf(stderr, "Error: line %d: unterminated comment\n", startingCommentLine);
         return EXIT_FAILURE;
 
