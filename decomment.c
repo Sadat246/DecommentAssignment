@@ -7,14 +7,14 @@ enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT, STAR_INSIDE_COMMENT, ESCAPE
 int linenumber = 1;
 int startingCommentLine = 1;
 int newlineCount = 0;
-bool lastCharIsSlashNotCommentMaybe= false;
+int lastCharIsSlashNotCommentMaybe= 0;//false
 enum Statetype
 handleDefaultState (int c)
 {
 	enum Statetype state;
 	if (c=='/') {
 	    state = SLASH_SEEN;
-        lastCharIsSlashNotCommentMaybe=true;
+        lastCharIsSlashNotCommentMaybe=1;
 	}
 	else if (c=='"'){
 	    putchar(c);
@@ -38,7 +38,7 @@ handleSlashSeenState (int c)
 	if (c=='/') {
 	    putchar('/');
 	    state = SLASH_SEEN;
-        lastCharIsSlashNotCommentMaybe=true;
+        lastCharIsSlashNotCommentMaybe=1;
 	}
 	else if (c=='"'){
         putchar('/');
@@ -67,7 +67,7 @@ handleCommentState (int c)
 {
 	enum Statetype state;
 	state = INSIDE_COMMENT;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
 	if (c=='*') {
 	    state = STAR_INSIDE_COMMENT;
 	}
@@ -82,7 +82,7 @@ handleStarInCommentState (int c)
 {
 	enum Statetype state;
     int i;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
 	    putchar(' ');
@@ -107,7 +107,7 @@ handleStringLiteralState (int c)
 {
 	enum Statetype state;
 	state = IN_STRING_LITERAL;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
 	if (c=='\\') {
 	    state = ESCAPE_IN_STRING;
 	}
@@ -123,7 +123,7 @@ handleCharacterLiteralState (int c)
 {
 	enum Statetype state;
 	state = IN_CHARACTER_LITERAL;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
 	if (c=='\\') {
 	    state = ESCAPE_IN_CHARACTER_LITERAL;
 	}
@@ -138,7 +138,7 @@ enum Statetype
 handleCharacterEscapeState (int c)
 {
 	enum Statetype state;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
 	putchar(c);
 	state = IN_CHARACTER_LITERAL;
     return state;
@@ -148,7 +148,7 @@ enum Statetype
 handleStringEscapeState (int c)
 {
 	enum Statetype state;
-    lastCharIsSlashNotCommentMaybe=false;
+    lastCharIsSlashNotCommentMaybe=0;
 	putchar(c);
 	state = IN_STRING_LITERAL;
     return state;
@@ -190,7 +190,7 @@ int main()
                 break;
         }
     }
-    if (lastCharIsSlashNotCommentMaybe==true){
+    if (lastCharIsSlashNotCommentMaybe==1){
         putchar('/');
     }
     if (state == INSIDE_COMMENT || state == STAR_INSIDE_COMMENT){
