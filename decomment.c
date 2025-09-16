@@ -7,7 +7,7 @@ enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT, STAR_INSIDE_COMMENT, ESCAPE
 int linenumber = 1;
 int startingCommentLine = 1;
 int newlineCount = 0;
-int lastCharIsSlashNotCommentMaybe= 0;//false
+int lastCharIsSlashNotCommentMaybe= 0; /*false*/
 enum Statetype
 handleDefaultState (int c)
 {
