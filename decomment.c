@@ -80,7 +80,8 @@ handleStarInCommentState (int c)
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
 	    putchar(' ');
-        for (int i=0;i<newlineCount;i++){
+        int i;
+        for (i=0;i<newlineCount;i++){
             putchar('\n');
         }
         newlineCount=0;
