@@ -14,22 +14,18 @@ handleDefaultState (int c)
 	enum Statetype state;
 	if (c=='/') {
 	    state = SLASH_SEEN;
-        lastCharIsSlashNotCommentMaybe=1;
 	}
 	else if (c=='"'){
 	    putchar(c);
 	    state=IN_STRING_LITERAL;
-        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else if (c=='\''){
 	    putchar(c);
 	    state=IN_CHARACTER_LITERAL;
-        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else{
 	    putchar(c);
 	    state = DEFAULT;
-        lastCharIsSlashNotCommentMaybe=0;
 	}
     return state;
 }
@@ -89,7 +85,6 @@ handleStarInCommentState (int c)
 {
 	enum Statetype state;
     int i;
-    lastCharIsSlashNotCommentMaybe=0;
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
 	    putchar(' ');
@@ -114,7 +109,6 @@ handleStringLiteralState (int c)
 {
 	enum Statetype state;
 	state = IN_STRING_LITERAL;
-    lastCharIsSlashNotCommentMaybe=0;
 	if (c=='\\') {
 	    state = ESCAPE_IN_STRING;
 	}
@@ -130,7 +124,6 @@ handleCharacterLiteralState (int c)
 {
 	enum Statetype state;
 	state = IN_CHARACTER_LITERAL;
-    lastCharIsSlashNotCommentMaybe=0;
 	if (c=='\\') {
 	    state = ESCAPE_IN_CHARACTER_LITERAL;
 	}
@@ -145,7 +138,6 @@ enum Statetype
 handleCharacterEscapeState (int c)
 {
 	enum Statetype state;
-    lastCharIsSlashNotCommentMaybe=0;
 	putchar(c);
 	state = IN_CHARACTER_LITERAL;
     return state;
@@ -155,7 +147,6 @@ enum Statetype
 handleStringEscapeState (int c)
 {
 	enum Statetype state;
-    lastCharIsSlashNotCommentMaybe=0;
 	putchar(c);
 	state = IN_STRING_LITERAL;
     return state;
