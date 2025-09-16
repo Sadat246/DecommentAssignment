@@ -82,6 +82,10 @@ handleStarInCommentState (int c)
 	    putchar(' ');
 	    state = DEFAULT;
 	}
+    else if (c == '\n') {
+        putchar('\n');
+        state = INSIDE_COMMENT;
+    }
 	else if (c!='*'){
 	    state = INSIDE_COMMENT;
 	}
