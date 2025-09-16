@@ -14,6 +14,7 @@ handleDefaultState (int c)
 	enum Statetype state;
 	if (c=='/') {
 	    state = SLASH_SEEN;
+        lastCharIsSlashNotCommentMaybe=1;
 	}
 	else if (c=='"'){
 	    putchar(c);
