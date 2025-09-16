@@ -208,6 +208,7 @@ int main()
         putchar('/');
     }
     if (state == INSIDE_COMMENT || state == STAR_INSIDE_COMMENT){
+        putchar(' ');
         for (i=0;i<newlineCount;i++){
             putchar('\n');
         }
