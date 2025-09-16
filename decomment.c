@@ -165,6 +165,7 @@ handleStringEscapeState (int c)
 int main()
 {
     int c;
+    int i;
     enum Statetype state = DEFAULT;
     while ((c= getchar()) != EOF){
         if (c == '\n'){
