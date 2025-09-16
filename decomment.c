@@ -77,10 +77,10 @@ enum Statetype
 handleStarInCommentState (int c)
 {
 	enum Statetype state;
+    int i;
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
 	    putchar(' ');
-        int i;
         for (i=0;i<newlineCount;i++){
             putchar('\n');
         }
