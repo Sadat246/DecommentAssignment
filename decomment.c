@@ -6,6 +6,7 @@ enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT, STAR_INSIDE_COMMENT, ESCAPE
 
 int linenumber = 1;
 int startingCommentLine = 1;
+int newlineCount = 0;
 enum Statetype
 handleDefaultState (int c)
 {
@@ -67,7 +68,7 @@ handleCommentState (int c)
 	    state = STAR_INSIDE_COMMENT;
 	}
     else if (c == '\n') {
-        putchar('\n');
+        newlineCount+=1
         state = INSIDE_COMMENT;
     }
     return state;
@@ -80,10 +81,14 @@ handleStarInCommentState (int c)
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
 	    putchar(' ');
+        for (i=0;i<newlineCount;i++){
+            putchar('\n');
+        }
+        newLineCount=0;
 	    state = DEFAULT;
 	}
     else if (c == '\n') {
-        putchar('\n');
+        newlineCount+=1
         state = INSIDE_COMMENT;
     }
 	else if (c!='*'){
