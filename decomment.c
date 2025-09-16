@@ -19,14 +19,17 @@ handleDefaultState (int c)
 	else if (c=='"'){
 	    putchar(c);
 	    state=IN_STRING_LITERAL;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else if (c=='\''){
 	    putchar(c);
 	    state=IN_CHARACTER_LITERAL;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else{
 	    putchar(c);
 	    state = DEFAULT;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
     return state;
 }
@@ -44,20 +47,24 @@ handleSlashSeenState (int c)
         putchar('/');
 	    putchar(c);
 	    state=IN_STRING_LITERAL;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else if (c=='\''){
         putchar('/');
 	    putchar(c);
 	    state=IN_CHARACTER_LITERAL;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else if (c=='*'){
 	    startingCommentLine= linenumber;
 	    state= INSIDE_COMMENT;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
 	else{
         putchar('/');
 	    putchar(c);
 	    state = DEFAULT;
+        lastCharIsSlashNotCommentMaybe=0;
 	}
     return state;
 }
@@ -162,6 +169,12 @@ int main()
     while ((c= getchar()) != EOF){
         if (c == '\n'){
 	        linenumber++;
+            if (state != INSIDE_COMMENT && c == '/'){
+                lastCharIsSlashNotCommentMaybe=1;
+            }
+            else{
+                lastCharIsSlashNotCommentMaybe=0;
+            }
 	    }
         switch (state){
             case DEFAULT:
