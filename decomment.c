@@ -108,9 +108,10 @@ handleStarInCommentState (int c)
     int i;
     state = STAR_INSIDE_COMMENT;
 	if (c=='/') {
-	    putchar(' ');
-        for (i=0;i<newlineCount;i++){
-            putchar('\n');
+	    putchar(' '); /* adding space after comment ended */
+        /* for any new lines inside comment we couldn't add*/
+        for (i=0;i<newlineCount;i++){ 
+            putchar('\n'); 
         }
         newlineCount=0;
 	    state = DEFAULT;
@@ -190,6 +191,10 @@ handleStringEscapeState (int c)
 }
 
 
+/* calls each helper function for dfiferent states, which are called when
+switching between the different cases for the state. We break after calling
+the function. This uses lastCharIsSlashNotCommentMaybe, linenumber, and newLineCount.
+This takes no parameters and returns either 0 or exit_failure.  */
 int main()
 {
     int c; /* this holds each char value in input */
