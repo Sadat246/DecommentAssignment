@@ -2,12 +2,20 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT, STAR_INSIDE_COMMENT, ESCAPE_IN_STRING, ESCAPE_IN_CHARACTER_LITERAL, IN_STRING_LITERAL, IN_CHARACTER_LITERAL};
+enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT, 
+STAR_INSIDE_COMMENT, ESCAPE_IN_STRING, ESCAPE_IN_CHARACTER_LITERAL, 
+IN_STRING_LITERAL, IN_CHARACTER_LITERAL};
 
-int linenumber = 1;
-int startingCommentLine = 1;
-int newlineCount = 0;
-int lastCharIsSlashNotCommentMaybe= 0; /*false*/
+int linenumber = 1; /* which line we are on */
+int startingCommentLine = 1; /* what was the line # for most recent comment*/
+int newlineCount = 0; /* how many new lines we have within a comment */
+int lastCharIsSlashNotCommentMaybe= 0; /*is our last character a slash outside a 
+comment? */
+
+/* handleDefaultState manages the default state. It takes
+a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It also might update
+lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
 enum Statetype
 handleDefaultState (int c)
 {
@@ -30,7 +38,11 @@ handleDefaultState (int c)
 	}
     return state;
 }
-    
+
+/* handleSlashSeenState manages when a slash is seen in the input.
+It takes a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It also might update
+lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
 enum Statetype
 handleSlashSeenState (int c)
 {
@@ -65,7 +77,11 @@ handleSlashSeenState (int c)
 	}
     return state;
 }
-    
+
+/* handleCommentState manages when a we are inside a comment
+It takes a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It also updates
+lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
 enum Statetype
 handleCommentState (int c)
 {
@@ -81,6 +97,10 @@ handleCommentState (int c)
     return state;
 }
 
+/* handleStarInCommentState manages when we see a star inside a comment.
+It takes a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It outputs the character and 
+returns the state. */
 enum Statetype
 handleStarInCommentState (int c)
 {
@@ -105,6 +125,10 @@ handleStarInCommentState (int c)
     return state;
 }
 
+/* handleStringLiteralState manages when we are inside a string.
+It takes a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It outputs the character and 
+returns the state. */
 enum Statetype
 handleStringLiteralState (int c)
 {
@@ -120,6 +144,10 @@ handleStringLiteralState (int c)
     return state;
 }
 
+/* handleCharacterLiteralState manages when we are inside a character literal.
+It takes a char as a parameter. It keeps the state the same or changes
+it depending on what the argument is. It outputs the character and 
+returns the state. */
 enum Statetype
 handleCharacterLiteralState (int c)
 {
@@ -135,6 +163,10 @@ handleCharacterLiteralState (int c)
     return state;
 }
 
+/* handleCharacterEscapeState manages when we are inside a character literal
+and there is an escape. It takes a char as a parameter. It keeps the 
+state the same or changes it depending on what the argument is. 
+It outputs the character and returns the state. */
 enum Statetype
 handleCharacterEscapeState (int c)
 {
@@ -144,6 +176,10 @@ handleCharacterEscapeState (int c)
     return state;
 }
 
+/* handleStringEscapeState manages when we are inside a string literal
+and there is an escape. It takes a char as a parameter. It keeps the 
+state the same or changes it depending on what the argument is. 
+It outputs the character and returns the state. */
 enum Statetype
 handleStringEscapeState (int c)
 {
@@ -156,8 +192,8 @@ handleStringEscapeState (int c)
 
 int main()
 {
-    int c;
-    int i;
+    int c; /* this holds each char value in input */
+    int i; /* this is for a for loop to add new lines. */
     enum Statetype state = DEFAULT;
     while ((c= getchar()) != EOF){
         if (c == '\n'){
