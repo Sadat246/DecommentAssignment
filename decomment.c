@@ -6,16 +6,20 @@ enum Statetype {DEFAULT, SLASH_SEEN, INSIDE_COMMENT,
 STAR_INSIDE_COMMENT, ESCAPE_IN_STRING, ESCAPE_IN_CHARACTER_LITERAL, 
 IN_STRING_LITERAL, IN_CHARACTER_LITERAL};
 
-int linenumber = 1; /* which line we are on */
-int startingCommentLine = 1; /* what was the line # for most recent comment*/
-int newlineCount = 0; /* how many new lines we have within a comment */
-int lastCharIsSlashNotCommentMaybe= 0; /*is our last character a slash outside a 
-comment? */
+/* which line we are on */
+int linenumber = 1; 
+/* what was the line # for most recent comment*/
+int startingCommentLine = 1; 
+/* how many new lines we have within a comment */
+int newlineCount = 0; 
+/*is our last character a slash outside a comment? */
+int lastCharIsSlashNotCommentMaybe= 0; 
 
 /* handleDefaultState manages the default state. It takes
 a char as a parameter. It keeps the state the same or changes
 it depending on what the argument is. It also might update
-lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
+lastCharIsSlashNotCommonMaybe. It outputs the character and 
+returns the state. */
 enum Statetype
 handleDefaultState (int c)
 {
@@ -42,7 +46,8 @@ handleDefaultState (int c)
 /* handleSlashSeenState manages when a slash is seen in the input.
 It takes a char as a parameter. It keeps the state the same or changes
 it depending on what the argument is. It also might update
-lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
+lastCharIsSlashNotCommonMaybe. It outputs the character and 
+returns the state. */
 enum Statetype
 handleSlashSeenState (int c)
 {
@@ -81,7 +86,8 @@ handleSlashSeenState (int c)
 /* handleCommentState manages when a we are inside a comment
 It takes a char as a parameter. It keeps the state the same or changes
 it depending on what the argument is. It also updates
-lastCharIsSlashNotCommonMaybe. It outputs the character and returns the state. */
+lastCharIsSlashNotCommonMaybe. It outputs the character and 
+returns the state. */
 enum Statetype
 handleCommentState (int c)
 {
@@ -97,10 +103,11 @@ handleCommentState (int c)
     return state;
 }
 
-/* handleStarInCommentState manages when we see a star inside a comment.
-It takes a char as a parameter. It keeps the state the same or changes
-it depending on what the argument is. It outputs the character and 
-returns the state. */
+/* handleStarInCommentState manages when we see a star inside a 
+comment.It takes a char as a parameter. It keeps the state the same 
+or changes it depending on what the argument is. It outputs the 
+character and returns the state. */
+
 enum Statetype
 handleStarInCommentState (int c)
 {
@@ -145,10 +152,10 @@ handleStringLiteralState (int c)
     return state;
 }
 
-/* handleCharacterLiteralState manages when we are inside a character literal.
-It takes a char as a parameter. It keeps the state the same or changes
-it depending on what the argument is. It outputs the character and 
-returns the state. */
+/* handleCharacterLiteralState manages when we are inside a 
+character literal. It takes a char as a parameter. It keeps 
+the state the same or changes it depending on what the 
+argument is. It outputs the character and returns the state. */
 enum Statetype
 handleCharacterLiteralState (int c)
 {
@@ -164,10 +171,10 @@ handleCharacterLiteralState (int c)
     return state;
 }
 
-/* handleCharacterEscapeState manages when we are inside a character literal
-and there is an escape. It takes a char as a parameter. It keeps the 
-state the same or changes it depending on what the argument is. 
-It outputs the character and returns the state. */
+/* handleCharacterEscapeState manages when we are inside a character 
+literal and there is an escape. It takes a char as a parameter. 
+It keeps the state the same or changes it depending on what the 
+argument is. It outputs the character and returns the state. */
 enum Statetype
 handleCharacterEscapeState (int c)
 {
@@ -177,10 +184,10 @@ handleCharacterEscapeState (int c)
     return state;
 }
 
-/* handleStringEscapeState manages when we are inside a string literal
-and there is an escape. It takes a char as a parameter. It keeps the 
-state the same or changes it depending on what the argument is. 
-It outputs the character and returns the state. */
+/* handleStringEscapeState manages when we are inside a string 
+literal and there is an escape. It takes a char as a parameter. 
+It keeps the state the same or changes it depending on what 
+the argument is. It outputs the character and returns the state. */
 enum Statetype
 handleStringEscapeState (int c)
 {
@@ -191,10 +198,11 @@ handleStringEscapeState (int c)
 }
 
 
-/* calls each helper function for dfiferent states, which are called when
-switching between the different cases for the state. We break after calling
-the function. This uses lastCharIsSlashNotCommentMaybe, linenumber, and newLineCount.
-This takes no parameters and returns either 0 or exit_failure.  */
+/* calls each helper function for dfiferent states, which are called 
+when switching between the different cases for the state. We break 
+after calling the function. This uses lastCharIsSlashNotCommentMaybe, 
+linenumber, and newLineCount. This takes no parameters and returns 
+either 0 or exit_failure.  */
 int main()
 {
     int c; /* this holds each char value in input */
@@ -245,7 +253,8 @@ int main()
         for (i=0;i<newlineCount;i++){
             putchar('\n');
         }
-        fprintf(stderr, "Error: line %d: unterminated comment\n", startingCommentLine);
+        fprintf(stderr, "Error: line %d: unterminated comment\n", 
+            startingCommentLine);
         return EXIT_FAILURE;
 
     }
